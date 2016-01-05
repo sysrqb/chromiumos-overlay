@@ -11,7 +11,7 @@ SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
 IUSE="brillo-debug cras pam opengl +power_management +profile
-	+shill tpm usb video_cards_intel X"
+	+shill +tor tpm usb video_cards_intel X"
 
 # The dependencies here are meant to capture "all the packages
 # developers want to use for development, test, or debug".  This
@@ -110,6 +110,7 @@ RDEPEND="${RDEPEND}
 	net-misc/iputils
 	net-misc/openssh
 	net-misc/rsync
+	tor? ( net-misc/tor )
 	net-wireless/iw
 	net-wireless/wireless-tools
 	dev-lang/python
