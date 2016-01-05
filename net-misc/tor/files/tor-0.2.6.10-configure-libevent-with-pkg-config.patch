@@ -1,0 +1,70 @@
+--- configure.ac	2016-01-05 00:06:50.052070295 +0000
++++ configure.ac	2016-01-05 00:35:56.956829415 +0000
+@@ -448,6 +448,14 @@
+ AC_CHECK_TYPE(u_int16_t, unsigned short)
+ AC_CHECK_TYPE(u_int8_t, unsigned char)
+ 
++AC_DEFINE([PKG_LIBEVENT], [], [pkg-config libevent prefix])
++AC_DEFINE([PKG_LIBEVENT_PKG_ERRORS], [], [pkg-config libevent pkg errors])
++PKG_CHECK_MODULES([PKG_LIBEVENT], [libevent >= 2.0])
++
++if test -z "$PKG_LIBEVENT_LIBS"; then
++  PKG_LIBEVENT_LIBS="-levent"
++fi
++
+ tor_libevent_pkg_redhat="libevent"
+ tor_libevent_pkg_debian="libevent-dev"
+ tor_libevent_devpkg_redhat="libevent-devel"
+@@ -462,7 +470,7 @@
+     fi
+ fi
+ 
+-TOR_SEARCH_LIBRARY(libevent, $trylibeventdir, [-levent $STATIC_LIBEVENT_FLAGS $TOR_LIB_WS32], [
++TOR_SEARCH_LIBRARY(libevent, $trylibeventdir, [$PKG_LIBEVENT_LIBS $STATIC_LIBEVENT_FLAGS $TOR_LIB_WS32], [
+ #ifdef _WIN32
+ #include <winsock2.h>
+ #endif
+@@ -485,9 +493,12 @@
+ save_LIBS="$LIBS"
+ save_LDFLAGS="$LDFLAGS"
+ save_CPPFLAGS="$CPPFLAGS"
+-LIBS="-levent $STATIC_LIBEVENT_FLAGS $TOR_LIB_WS32 $LIBS"
++save_CFLAGS="$CFLAGS"
++
++LIBS="$PKG_LIBEVENT_LIBS $STATIC_LIBEVENT_FLAGS $TOR_LIB_WS32 $LIBS"
+ LDFLAGS="$TOR_LDFLAGS_libevent $LDFLAGS"
+ CPPFLAGS="$TOR_CPPFLAGS_libevent $CPPFLAGS"
++CFLAGS="$PKG_LIBEVENT_CFLAGS $CFLAGS"
+ AC_CHECK_FUNCS([event_get_version \
+                 event_get_version_number \
+                 event_get_method \
+@@ -505,17 +516,16 @@
+ LDFLAGS="$save_LDFLAGS"
+ CPPFLAGS="$save_CPPFLAGS"
+ 
+-
+ AM_CONDITIONAL(USE_EXTERNAL_EVDNS, test x$ac_cv_header_event2_dns_h = xyes)
+ 
+ if test "$enable_static_libevent" = "yes"; then
+    if test "$tor_cv_library_libevent_dir" = "(system)"; then
+      AC_MSG_ERROR("You must specify an explicit --with-libevent-dir=x option when using --enable-static-libevent")
+    else
+-     TOR_LIBEVENT_LIBS="$TOR_LIBDIR_libevent/libevent.a $STATIC_LIBEVENT_FLAGS"
++     TOR_LIBEVENT_LIBS="$TOR_LIBDIR_libevent/libevent.a $STATIC_LIBEVENT_FLAGS $PKG_LIBEVENT_LIBS"
+    fi
+ else
+-     TOR_LIBEVENT_LIBS="-levent"
++     TOR_LIBEVENT_LIBS="$PKG_LIBEVENT_LIBS"
+ fi
+ 
+ dnl This isn't the best test for Libevent 2.0.3-alpha.  Once it's released,
+@@ -571,7 +581,9 @@
+     TOR_LIBEVENT_LIBS="-levent_openssl $TOR_LIBEVENT_LIBS"
+   fi
+ fi
++TOR_LIBEVENT_CFLAGS="$PKG_LIBEVENT_CFLAGS"
+ AC_SUBST(TOR_LIBEVENT_LIBS)
++AC_SUBST(TOR_LIBEVENT_CFLAGS)
+ 
+ dnl ------------------------------------------------------
+ dnl Where do you live, libm?
