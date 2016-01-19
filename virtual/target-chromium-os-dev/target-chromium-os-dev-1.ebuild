@@ -10,7 +10,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
-IUSE="brillo-debug cras pam opengl +power_management +profile
+IUSE="brillo-debug +crouton cras pam opengl +power_management +profile
 	+shill +tor tpm usb video_cards_intel X"
 
 # The dependencies here are meant to capture "all the packages
@@ -81,6 +81,7 @@ RDEPEND="${RDEPEND}
 		net-analyzer/netperf
 		dev-util/perf
 	)
+	crouton? ( app-crypt/gnupg )
 	app-crypt/nss
 	tpm? ( app-crypt/tpm-tools )
 	app-editors/qemacs
