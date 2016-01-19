@@ -10,7 +10,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os.
-IUSE="bluetooth bootchart bootimage buffet +cellular coreboot
+IUSE="bluetooth bootchart bootimage buffet +cellular coreboot +crouton
 	+cras +crash_reporting +cros_disks cros_ec cros_embedded +debugd dptf
 	feedback +fonts gobi mtd +network_time nfc pam peerd
 	+power_management +profile cups +readahead scanner +shill
@@ -127,6 +127,7 @@ CROS_COMMON_RDEPEND+="
 	watchdog? ( sys-apps/daisydog )
 	coreboot? ( sys-boot/coreboot )
 	mtd? ( sys-fs/mtd-utils )
+	crouton? ( app-crypt/gnupg )
 	tor? ( net-misc/tor )
 	cups? ( net-print/cups )
 	chromeos-base/chromeos-machine-id-regen
