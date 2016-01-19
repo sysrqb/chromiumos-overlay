@@ -81,7 +81,6 @@ RDEPEND="${RDEPEND}
 		net-analyzer/netperf
 		dev-util/perf
 	)
-	crouton? ( app-crypt/gnupg )
 	app-crypt/nss
 	tpm? ( app-crypt/tpm-tools )
 	app-editors/qemacs
@@ -111,7 +110,6 @@ RDEPEND="${RDEPEND}
 	net-misc/iputils
 	net-misc/openssh
 	net-misc/rsync
-	tor? ( net-misc/tor )
 	net-wireless/iw
 	net-wireless/wireless-tools
 	dev-lang/python
