@@ -11,3 +11,5 @@ dev-libs/libpcre unicode
 # USE X needs to be always enabled to force virtualx
 # eclass usage for Xeconf.
 media-sound/rubyripper X
+
+app-crypt/gnupg curl
