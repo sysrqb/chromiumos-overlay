@@ -1,0 +1,10 @@
+--- /build/peppy/tmp/portage/dev-libs/libgpg-error-1.19-r1/work/libgpg-error-1.19/src/mkheader.c	2016-01-22 07:05:29.613816074 +0000
++++ /build/peppy/tmp/portage/dev-libs/libgpg-error-1.19-r1/work/libgpg-error-1.19/src/mkheader.c.orig	2016-01-22 07:04:53.604328384 +0000
+@@ -76,7 +76,6 @@
+   } tbl[] = {
+     {"i486-pc-linux-gnu", "i686-pc-linux-gnu" },
+     {"i586-pc-linux-gnu" },
+-    {"x86_64-cros-linux-gnu", "x86_64-pc-linux-gnu" },
+ 
+     { NULL }
+   };

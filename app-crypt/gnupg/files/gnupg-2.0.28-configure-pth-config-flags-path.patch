@@ -1,0 +1,28 @@
+--- configure	2016-01-22 08:41:21.123572247 +0000
++++ configure	2016-01-22 08:42:07.561494276 +0000
+@@ -8461,9 +8461,9 @@
+          _gnupg_pth_save_cflags=$CFLAGS
+          _gnupg_pth_save_ldflags=$LDFLAGS
+          _gnupg_pth_save_libs=$LIBS
+-         CFLAGS="$CFLAGS `$PTH_CONFIG --cflags`"
+-         LDFLAGS="$LDFLAGS `$PTH_CONFIG --ldflags`"
+-         LIBS="$LIBS `$PTH_CONFIG --libs --all`"
++         CFLAGS="$CFLAGS `$PTH_CONFIG --cflags | sed 's,/,/build/peppy/,'`"
++         LDFLAGS="$LDFLAGS `$PTH_CONFIG --ldflags | sed 's,/,/build/peppy/,'`"
++         LIBS="$LIBS `$PTH_CONFIG --libs --all | sed 's,/,/build/peppy/,'`"
+          cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ #include <pth.h>
+@@ -8500,9 +8500,9 @@
+     fi
+ 
+     if test $have_pth = yes; then
+-       PTH_CFLAGS=`$PTH_CONFIG --cflags`
+-       PTH_LIBS=`$PTH_CONFIG --ldflags`
+-       PTH_LIBS="$PTH_LIBS `$PTH_CONFIG --libs --all`"
++       PTH_CFLAGS=`$PTH_CONFIG --cflags | sed 's,/,/build/peppy/,'`
++       PTH_LIBS=`$PTH_CONFIG --ldflags | sed 's,/,/build/peppy/,'`
++       PTH_LIBS="$PTH_LIBS `$PTH_CONFIG --libs --all | sed 's,/,/build/peppy/,'`"
+ 
+ $as_echo "#define HAVE_PTH 1" >>confdefs.h
+ 

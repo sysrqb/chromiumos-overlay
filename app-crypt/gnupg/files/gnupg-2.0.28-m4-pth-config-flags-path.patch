@@ -1,0 +1,15 @@
+--- m4/gnupg-pth.m4	2016-01-22 08:30:04.703569499 +0000
++++ m4/gnupg-pth.m4	2016-01-22 08:29:03.857055469 +0000
+@@ -51,9 +51,9 @@
+          _gnupg_pth_save_cflags=$CFLAGS
+          _gnupg_pth_save_ldflags=$LDFLAGS
+          _gnupg_pth_save_libs=$LIBS
++         CFLAGS="$CFLAGS `$PTH_CONFIG --cflags | sed 's,/,/build/peppy/,'`"
++         LDFLAGS="$LDFLAGS `$PTH_CONFIG --ldflags | sed 's,/,/build/peppy/,'`"
++         LIBS="$LIBS `$PTH_CONFIG --libs --all | sed 's,/,/build/peppy/,'`"
+-         CFLAGS="$CFLAGS `$PTH_CONFIG --cflags`"
+-         LDFLAGS="$LDFLAGS `$PTH_CONFIG --ldflags`"
+-         LIBS="$LIBS `$PTH_CONFIG --libs --all`"
+          AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <pth.h>
+                                          ],
+                                          [[ pth_init ();]])],
