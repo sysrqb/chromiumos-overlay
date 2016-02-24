@@ -4,20 +4,20 @@
 
 EAPI="5"
 
-inherit eutils flag-o-matic readme.gentoo systemd toolchain-funcs versionator user
+inherit autotools cros-board eutils flag-o-matic versionator user
 
 MY_PV="$(replace_version_separator 4 -)"
 MY_PF="${PN}-${MY_PV}"
 DESCRIPTION="Anonymizing overlay network for TCP"
-HOMEPAGE="http://www.torproject.org/"
+HOMEPAGE="https://www.torproject.org/"
 SRC_URI="https://www.torproject.org/dist/${MY_PF}.tar.gz
 	https://archive.torproject.org/tor-package-archive/${MY_PF}.tar.gz"
-S="${WORKDIR}/${MY_PF}"
+#S="${WORKDIR}/${MY_PF}"
 
 LICENSE="BSD GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-bufferevents libressl scrypt seccomp selinux stats systemd tor-hardening transparent-proxy test web"
+IUSE="-bufferevents libressl +scrypt seccomp selinux stats -systemd +tor-hardening transparent-proxy test web"
 
 DEPEND="
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
@@ -37,7 +37,10 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-0.2.7.4-torrc.sample.patch
+	epatch "${FILESDIR}"/${PN}-0.2.3.14_alpha-torrc.sample.patch
+	# See https://github.com/libevent/libevent/pull/142
+	epatch "${FILESDIR}"/${PN}-0.2.6.10-configure-libevent-with-pkg-config.patch
+	WANT_AUTOCONF="" autoreconf
 	epatch_user
 }
 
@@ -46,6 +49,12 @@ src_configure() {
 	# will break tor, but does recommend against -fstrict-aliasing.
 	# We'll filter-flags them here as we encounter them.
 	filter-flags -fstrict-aliasing
+
+	#local BOARD=$(get_current_board_with_variant)
+
+	#if [[ -z "${BOARD}" ]]; then
+	#	die "Could not determine the current board using cros-board.eclass."
+	#fi
 
 	econf \
 		--enable-system-torrc \
@@ -65,35 +74,17 @@ src_configure() {
 }
 
 src_install() {
-	readme.gentoo_create_doc
-
-	newconfd "${FILESDIR}"/tor.confd tor
-	newinitd "${FILESDIR}"/tor.initd-r7 tor
-	systemd_dounit "${FILESDIR}/${PN}.service"
-	systemd_dotmpfilesd "${FILESDIR}/${PN}.conf"
-
-	emake DESTDIR="${D}" install
-
-	keepdir /var/lib/tor
-
-	dodoc README ChangeLog ReleaseNotes doc/HACKING
-
-	fperms 750 /var/lib/tor
-	fowners tor:tor /var/lib/tor
+	emake
 
 	insinto /etc/tor/
-	newins "${FILESDIR}"/torrc-r1 torrc
-}
+	doins "${FILESDIR}"/torrc
 
-pkg_postinst() {
-	readme.gentoo_pkg_postinst
+	insinto /etc/init/
+	doins "${FILESDIR}"/tor.conf
 
-	if [[ $(gcc-major-version) -eq 4 && $(gcc-minor-version) -eq 8 && $(gcc-micro-version) -ge 1 ]] ; then
-		ewarn "Due to a bug in  >=gcc-4.8.1, compiling ${P} with -Os leads to an infinite"
-		ewarn "loop.  See:"
-		ewarn
-		ewarn "    https://trac.torproject.org/projects/tor/ticket/10259"
-		ewarn "    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=59358"
-		ewarn
-	fi
+	insinto /usr/share/tor
+	doins ${S}/src/config/geoip ${S}/src/config/geoip6
+
+	into /usr
+	dobin ${S}/src/or/tor ${S}/src/tools/tor-resolve
 }
