@@ -1,8 +1,8 @@
 --- configure.ac	2016-01-05 00:06:50.052070295 +0000
 +++ configure.ac	2016-01-05 00:35:56.956829415 +0000
-@@ -448,6 +448,14 @@
- AC_CHECK_TYPE(u_int16_t, unsigned short)
- AC_CHECK_TYPE(u_int8_t, unsigned char)
+@@ -454,6 +454,14 @@
+ AC_SUBST(TOR_LIB_GDI)
+ AC_SUBST(TOR_LIB_IPHLPAPI)
  
 +AC_DEFINE([PKG_LIBEVENT], [], [pkg-config libevent prefix])
 +AC_DEFINE([PKG_LIBEVENT_PKG_ERRORS], [], [pkg-config libevent pkg errors])
@@ -15,7 +15,7 @@
  tor_libevent_pkg_redhat="libevent"
  tor_libevent_pkg_debian="libevent-dev"
  tor_libevent_devpkg_redhat="libevent-devel"
-@@ -462,7 +470,7 @@
+@@ -468,7 +476,7 @@
      fi
  fi
  
@@ -24,7 +24,7 @@
  #ifdef _WIN32
  #include <winsock2.h>
  #endif
-@@ -485,9 +493,12 @@
+@@ -491,9 +499,12 @@
  save_LIBS="$LIBS"
  save_LDFLAGS="$LDFLAGS"
  save_CPPFLAGS="$CPPFLAGS"
@@ -35,10 +35,10 @@
  LDFLAGS="$TOR_LDFLAGS_libevent $LDFLAGS"
  CPPFLAGS="$TOR_CPPFLAGS_libevent $CPPFLAGS"
 +CFLAGS="$PKG_LIBEVENT_CFLAGS $CFLAGS"
- AC_CHECK_FUNCS([event_get_version \
-                 event_get_version_number \
-                 event_get_method \
-@@ -505,17 +516,16 @@
+ AC_CHECK_FUNCS([event_get_version_number \
+                 evutil_secure_rng_set_urandom_device_file \
+                 evutil_secure_rng_init \
+@@ -508,17 +519,16 @@
  LDFLAGS="$save_LDFLAGS"
  CPPFLAGS="$save_CPPFLAGS"
  
@@ -58,7 +58,7 @@
  fi
  
  dnl This isn't the best test for Libevent 2.0.3-alpha.  Once it's released,
-@@ -571,7 +581,9 @@
+@@ -574,7 +588,9 @@
      TOR_LIBEVENT_LIBS="-levent_openssl $TOR_LIBEVENT_LIBS"
    fi
  fi

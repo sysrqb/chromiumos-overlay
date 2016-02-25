@@ -17,7 +17,7 @@ SRC_URI="https://www.torproject.org/dist/${MY_PF}.tar.gz
 LICENSE="BSD GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-bufferevents libressl +scrypt seccomp selinux stats -systemd +tor-hardening transparent-proxy test web"
+IUSE="-bufferevents libressl scrypt seccomp selinux stats -systemd +tor-hardening transparent-proxy test web"
 
 DEPEND="
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
