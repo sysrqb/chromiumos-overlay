@@ -6,13 +6,14 @@ EAPI=5
 
 inherit autotools eutils multilib versionator
 
-MY_PV="$(replace_version_separator 3 -)"
+#MY_PV="$(replace_version_separator 3 -)"
+MY_PV="${PV}"
 MY_PF="${PN}-${MY_PV}"
 S=${WORKDIR}/${MY_PF}
 
 DESCRIPTION="Use most socks-friendly applications with Tor"
-HOMEPAGE="https://github.com/dgoulet/torsocks"
-SRC_URI="https://github.com/dgoulet/torsocks/archive/v${MY_PV}.tar.gz -> ${MY_PF}.tar.gz"
+HOMEPAGE="https://gitweb.torproject.org/torsocks.git"
+SRC_URI="https://github.com/sysrqb/torsocks/archive/v${MY_PV}.tar.gz -> ${MY_PF}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
