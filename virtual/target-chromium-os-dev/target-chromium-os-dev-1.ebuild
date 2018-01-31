@@ -11,7 +11,7 @@ SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
 IUSE="brillo-debug +crouton cras pam opengl +power_management +profile
-	+shill +tor tpm usb video_cards_intel X"
+	+shill +tor +torsocks tpm usb video_cards_intel X"
 
 # The dependencies here are meant to capture "all the packages
 # developers want to use for development, test, or debug".  This

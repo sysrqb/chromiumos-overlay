@@ -14,8 +14,8 @@ IUSE="bluetooth bootchart bootimage buffet +cellular coreboot +crouton
 	+cras +crash_reporting +cros_disks cros_ec cros_embedded +debugd dptf
 	feedback +fonts gobi mtd +network_time nfc pam peerd
 	+power_management +profile cups +readahead scanner +shill
-	intel_lpe +syslog touchview +tor +tpm +trim_supported +vpn watchdog
-	wifi_bootstrapping wimax X"
+	intel_lpe +syslog touchview +tor +torsocks +tpm +trim_supported +vpn
+	watchdog wifi_bootstrapping wimax X"
 
 REQUIRE_USE="cellular? ( shill )"
 
@@ -129,6 +129,7 @@ CROS_COMMON_RDEPEND+="
 	mtd? ( sys-fs/mtd-utils )
 	crouton? ( app-crypt/gnupg )
 	tor? ( net-misc/tor )
+	torsocks? ( net-proxy/torsocks )
 	cups? ( net-print/cups )
 	chromeos-base/chromeos-machine-id-regen
 	sys-kernel/linux-firmware

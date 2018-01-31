@@ -4,6 +4,7 @@
 User tor
 Group tor
 PIDFile /var/run/tor/tor.pid
-Log notice file /var/log/tor/tor.log
+Log notice file /var/log/tor/notice.log
 DataDirectory /var/lib/tor/data
 RunAsDaemon 1
+SocksPort unix:/run/tor/socks/socks WorldWritable

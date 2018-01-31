@@ -42,6 +42,8 @@ src_install() {
 	default
 
 	dodoc ChangeLog README.md TODO doc/notes/DEBUG doc/socks/{SOCKS5,socks-extensions.txt}
+	insinto /etc/tor
+	doins "${FILESDIR}"/torsocks.conf
 
 	#Remove libtool .la files
 	cd "${D}"/usr/$(get_libdir)/torsocks || die
